@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Word Bingo</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <div class="header-left">
+                <h1>🎄 Tombola of words</h1>
+                
+                <div class="class-selection" id="classSelection">
+    <div class="class-level-row">
+        <span class="class-label">Class Level:</span>
+        <div class="class-buttons">
+            <button class="class-dot" data-class="1media" onclick="selectClass('1media')">1</button>
+            <button class="class-dot" data-class="2media" onclick="selectClass('2media')">2</button>
+            <button class="class-dot" data-class="3media" onclick="selectClass('3media')">3</button>
+            <button class="class-dot active" data-class="mix" onclick="randomMixedBoard()">mix</button>
+        </div>
+    </div>
+    <div class="code-input-row">
+        <span class="code-label">Codice:</span>
+        <input type="text" id="codeInput" placeholder="ABC123" maxlength="6">
+        <button class="load-code-btn" onclick="handleLoadFromCode()">📥 Carica</button>
+    </div>
+</div>
+
+                
+                        <div class="nav-buttons" id="navButtons">
+                        <button class="nav-btn" onclick="showPage('index')"
+                                id="nav-index">Board</button>
+                        <button class="nav-btn" onclick="showPage('player')"
+                                id="nav-player">Player Cards</button>
+
+                        <!-- Pulsante print board come icona -->
+                        <button class="nav-btn icon-btn" id="printBoard-btn"
+                                onclick="printBoard()" data-tooltip="Print board">🖨️
+                        </button>
+
+                        <!-- Pulsante print cards come icona -->
+                        <button class="nav-btn icon-btn" id="printCards-btn"
+                                onclick="printCards()" data-tooltip="Print cards">
+                            🃏
+                        </button>
+                        </div>
+
+            </div>
+            
+            <div class="wheel-container-small">
+                <div class="wheel-pointer"></div>
+                <div id="wheelBtn" class="wheel" onclick="spinWheel()"></div>
+                <div id="extractedNumber" class="extracted-number"></div>
+                <div id="extractedWord" class="extracted-word"></div>
+                <div id="extractedDefinition" class="extracted-definition"></div>
+            </div>
+        </div>
+
+        <!-- Index Page -->
+        <div id="index" class="page active">
+            <div class="index-content">
+                <div class="board-container">
+                    <div id="board" class="board"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Player Page -->
+        <div id="player" class="page"> 
+            <div class="player-content">
+                <div class="card">
+                    <h2>Card:</h2> 
+                    <div id="card1" class="card-grid"></div>
+                </div>
+                
+                <div class="card">
+                    <h2>Card:</h2>
+                    <div id="card2" class="card-grid"></div>
+                </div>
+                
+                <div class="card">
+                    <h2>Card:</h2>
+                    <div id="card3" class="card-grid"></div>
+                </div>
+                
+                <div class="card">
+                    <h2>Card:</h2>
+                    <div id="card4" class="card-grid"></div>
+                </div>
+                <button class="reset-btn" onclick="resetCards()">🔄 Reset All Cards</button>
+                <button class="generate-btn" onclick="generatePlayerCards()">🎲 Generate New Cards</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">Ms Fatigato</footer>
+
+    <script src="parole.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script src="multiplayer.js"></script>
+</body>
+</html>
