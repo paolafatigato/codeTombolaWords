@@ -258,7 +258,7 @@ function spinWheel() {
                 document.getElementById('wheelBtn').textContent = '✅ All Done!';
                 document.getElementById('wheelBtn').disabled = true;
             }
-        }, 9000); // 9 secondi di ritardo
+        }, 8000); // 9 secondi di ritardo
         
     }, 2000);
 }
