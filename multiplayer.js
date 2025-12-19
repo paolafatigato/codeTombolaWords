@@ -101,23 +101,13 @@ function hideLoadingMessage() {
     }
 }
 
-// Mostra il codice sotto il tabellone
+// Mostra il codice nell'header (non più sotto il tabellone)
 function showSessionCode(code) {
-    const existing = document.querySelector('.board-code-display');
-    if (existing) existing.remove();
-    
-    const boardContainer = document.querySelector('.board-container');
-    if (!boardContainer) return;
-    
-    const codeDisplay = document.createElement('div');
-    codeDisplay.className = 'board-code-display';
-    codeDisplay.innerHTML = `
-        <div class="code-label">📋 Codice tabellone: <span class="storage-badge">🔥 Firebase</span></div>
-        <div class="code-value">${code}</div>
-        <div class="code-hint">✨ Condividi questo codice - funziona su tutti i dispositivi!</div>
-    `;
-    
-    boardContainer.appendChild(codeDisplay);
+    const codeDisplay = document.getElementById('currentCodeDisplay');
+    if (codeDisplay) {
+        codeDisplay.textContent = code;
+        codeDisplay.classList.add('active');
+    }
 }
 
 // Aggiorna i pulsanti delle classi
