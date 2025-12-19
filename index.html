@@ -27,10 +27,19 @@
             <button class="class-dot active" data-class="mix" onclick="randomMixedBoard()">mix</button>
         </div>
     </div>
-    <div class="code-input-row">
-        <span class="code-label">Codice:</span>
-        <input type="text" id="codeInput" placeholder="ABC123" maxlength="6">
-        <button class="load-code-btn" onclick="handleLoadFromCode()">📥 Carica</button>
+    
+    <!-- NUOVA RIGA CON CODICE E INPUT -->
+    <div class="code-row">
+        <div class="current-code-section">
+            <span class="code-label">Current code:</span>
+            <span id="currentCodeDisplay" class="current-code-value">------</span>
+        </div>
+        <div class="divider"></div>
+        <div class="insert-code-section">
+            <span class="code-label">Insert code:</span>
+            <input type="text" id="codeInput" placeholder="ABC123" maxlength="6">
+            <button class="load-code-btn" onclick="handleLoadFromCode()">📥</button>
+        </div>
     </div>
 </div>
 
