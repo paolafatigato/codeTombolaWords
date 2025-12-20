@@ -33,19 +33,17 @@
     
     <!-- NUOVA RIGA CON CODICE E INPUT -->
     <div class="code-row">
-        
-        <div class="current-code-section">
-            <span class="code-label">Current code:</span>
-            <span id="currentCodeDisplay" class="current-code-value">------</span>
-        </div>
-        <div class="divider"></div>
-        <div class="insert-code-section">
-            <span class="code-label">Insert code:</span>
-            <input type="text" id="codeInput" placeholder="ABC123" maxlength="6">
-            <button class="load-code-btn" onclick="handleLoadFromCode()">📥</button>
-        </div>
+    <div class="current-code-section">
+        <span class="code-label">Current code</span>
+        <span id="currentCodeDisplay" class="current-code-value">------</span>
     </div>
-</div>
+
+    <div class="insert-code-section" data-tooltip="Insert code">
+        <input type="text" id="codeInput" placeholder="ABC123" maxlength="6">
+        <button class="load-code-btn" onclick="handleLoadFromCode()">📥</button>
+    </div>
+    </div>
+
 
                 
                         <div class="nav-buttons" id="navButtons">
