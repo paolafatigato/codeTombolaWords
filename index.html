@@ -15,21 +15,25 @@
     <div class="container">
         <div class="header-section">
             <div class="header-left">
-                <h1>🎄 Tombola of words</h1>
+                <h1>🎄 Tombola of words</h1>          
                 
-                <div class="class-selection" id="classSelection">
+<!-- <div class="class-selection" id="classSelection">
     <div class="class-level-row">
         <span class="class-label">Class Level:</span>
         <div class="class-buttons">
-            <button class="class-dot" data-class="1media" onclick="selectClass('1media')">1</button>
-            <button class="class-dot" data-class="2media" onclick="selectClass('2media')">2</button>
-            <button class="class-dot" data-class="3media" onclick="selectClass('3media')">3</button>
-            <button class="class-dot active" data-class="mix" onclick="randomMixedBoard()">mix</button>
+            <button class="class-dot" id="class-dot1" onclick="selectClass('1media')">1</button>
+            <button class="class-dot" id="class-dot2" data-class="2media" onclick="selectClass('2media')">2</button>
+            <button class="class-dot" id="class-dot3" data-class="3media" onclick="selectClass('3media')">3</button>
+            <button class="class-dot active" id="class-dotMix" data-class="mix" onclick="randomMixedBoard()">mix</button>
+            <button class="class-dot" id="class-dot-cat" onclick="showPage('categories')"  data-tooltip="Choose Categories">
+    📁
+</button>-->
         </div>
     </div>
     
     <!-- NUOVA RIGA CON CODICE E INPUT -->
     <div class="code-row">
+        
         <div class="current-code-section">
             <span class="code-label">Current code:</span>
             <span id="currentCodeDisplay" class="current-code-value">------</span>
@@ -45,6 +49,10 @@
 
                 
                         <div class="nav-buttons" id="navButtons">
+                            <button class="class-dot" 
+                                    id="class-dot-cat" onclick="showPage('categories')"  
+                                    data-tooltip="Choose Categories">📁</button>
+
                         <button class="nav-btn" onclick="showPage('index')"
                                 id="nav-index">Board</button>
                         <button class="nav-btn" onclick="showPage('player')"
@@ -109,6 +117,69 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Categories Page -->
+<!-- Categories Page -->
+<div id="categories" class="page">
+    <div class="category-page">
+        <h2>🎯 Choose Categories & Classes</h2>
+        <p class="category-subtitle">Filter your board by categories and class levels</p>
+        
+        <!-- CLASS LEVEL FILTER -->
+        <div class="filter-section">
+            <h3>📚 Class Levels</h3>
+            <div class="class-filter-grid">
+
+                <button class="class-filter-btn class-dot" id="class-dot1" data-class="1media" onclick="toggleClassFilter('1media')">
+                    <span class="filter-label">1</span>
+                </button>
+                <button class="class-filter-btn class-dot" id="class-dot2" data-class="2media" onclick="toggleClassFilter('2media')">
+                    <span class="filter-label">2</span>
+                </button>
+                <button class="class-filter-btn class-dot" id="class-dot3" data-class="3media" onclick="toggleClassFilter('3media')">
+                    <span class="filter-label">3</span>
+                </button>
+                
+                <button class="class-filter-btn nav-btn" id="class-dotMix" data-class="all" onclick="toggleClassFilter('all')">
+                    <span class="filter-label">All</span>
+                </button>                
+
+            </div>
+        </div>
+        
+        <!-- CATEGORY FILTER -->
+        <div class="filter-section">
+            <h3>🏷️ Categories</h3>
+            <div class="selected-categories" id="selectedCategoriesDisplay">
+                <strong>Selected:</strong> <span id="selectedCategoriesText">None</span>
+            </div>
+            <div class="category-grid" id="categoryGrid"></div>
+        </div>
+        
+        <!-- ACTIONS -->
+        <div class="category-actions">
+            <button class="clear-btn" onclick="clearAllFilters()">🗑️ Clear All</button>
+            <button class="generate-btn" onclick="applyCategories()">
+                🎲 Generate Filtered Board
+            </button>
+        </div>
+        
+        <!-- INFO BOX -->
+        <div class="filter-info">
+            <p><strong>💡 How it works:</strong></p>
+            <ul>
+                <li>Select <strong>class levels</strong> to filter by grade (or "All Classes" for no filter)</li>
+                <li>Select <strong>categories</strong> to prioritize specific word types</li>
+                <li>Combine both filters for precise results (e.g., "Literature + 1° Media")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
 
     <footer class="footer">Ms Fatigato</footer>
 
