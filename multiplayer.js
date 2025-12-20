@@ -62,7 +62,6 @@ async function loadBoardFromCode(code) {
         showPage("index");
         
         // Reset wheel
-        document.getElementById("wheelBtn").textContent = "Spin!";
         document.getElementById("wheelBtn").disabled = false;
         document.getElementById("extractedNumber").textContent = "";
         document.getElementById("extractedWord").textContent = "";
@@ -204,7 +203,6 @@ window.randomMixedBoard = function() {
     renderBoard();
     
     extractedNumbers = [];
-    document.getElementById("wheelBtn").textContent = "Spin!";
     document.getElementById("wheelBtn").disabled = false;
     document.getElementById("extractedNumber").textContent = "";
     document.getElementById("extractedWord").textContent = "";
