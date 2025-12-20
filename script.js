@@ -3,7 +3,7 @@ let isSpinning = false;
 let playerCards = {card1: [], card2: [], card3: [], card4: []};
 let currentBoardWords = [];
 let selectedClass = "mix";
-const TOTAL = 35;  //numero di spicchi della ruota
+const TOTAL = 34;  //numero di spicchi della ruota
 
 
 
@@ -103,7 +103,7 @@ function createBoard() {
         // logica già presente
         classWords = words.filter(w => w.classe === selectedClass);
 
-        if (classWords.length < 100) {
+        if (classWords.length < 90) {
             let additionalWords;
             if (selectedClass === "1media") {
                 additionalWords = words.filter(w => w.classe === "2media");
@@ -115,14 +115,14 @@ function createBoard() {
                 );
             }
             additionalWords = shuffleArray(additionalWords);
-            const needed = 100 - classWords.length;
+            const needed = 90 - classWords.length;
             classWords = [...classWords, ...additionalWords.slice(0, needed)];
         }
     }
 
     currentBoardWords = classWords
         .sort((a, b) => a.word.localeCompare(b.word))
-        .slice(0, 100);
+        .slice(0, 90);
 
    currentBoardWords.forEach((item, index) => {
     const num = index + 1;
@@ -157,7 +157,7 @@ function randomMixedBoard() {
         w.classe === "3media"
     );
     const shuffled = shuffleArray(all);
-    currentBoardWords = shuffled.slice(0, 100);
+    currentBoardWords = shuffled.slice(0, 90);
 
     const board = document.getElementById("board");
     board.innerHTML = "";
@@ -175,7 +175,6 @@ function randomMixedBoard() {
 
     // reset estrazioni
     extractedNumbers = [];
-    document.getElementById("wheelBtn").textContent = "Spin!";
     document.getElementById("wheelBtn").disabled = false;
     document.getElementById("extractedNumber").textContent = "";
     document.getElementById("extractedWord").textContent = "";
@@ -205,13 +204,13 @@ function createWheel() {
 
 // gira la ruota .
 function spinWheel() {
-    if (isSpinning || extractedNumbers.length === 100) return;
+    if (isSpinning || extractedNumbers.length === 90) return;
     
     isSpinning = true;
     document.getElementById('wheelBtn').disabled = true;
     
     let availableNumbers = [];
-    for (let i = 1; i <= 100; i++) {
+    for (let i = 1; i <= 90; i++) {
         if (!extractedNumbers.includes(i)) {
             availableNumbers.push(i);
         }
@@ -254,13 +253,13 @@ function spinWheel() {
             isSpinning = false;
             document.getElementById('wheelBtn').disabled = false;
             
-            if (extractedNumbers.length === 100) {
+            if (extractedNumbers.length === 90) {
                 document.getElementById('wheelBtn').textContent = '✅ All Done!';
                 document.getElementById('wheelBtn').disabled = true;
             }
         }, 8000); // 9 secondi di ritardo
         
-    }, 2000);
+    }, 500); //dopo mezzo secondo mostra la definizione
 }
 
 function generatePlayerCards() {
@@ -385,3 +384,417 @@ function printCards() {
     showPage('player');
     window.print();
 }
+
+
+//CATEGORY?
+// ============================================
+// CATEGORY FILTER SYSTEM
+// AGGIUNGI QUESTO ALLA FINE DI script.js
+// ============================================
+
+let selectedCategories = [];
+let selectedClassLevels = ['all']; // Default: tutte le classi
+
+const availableCategories = [
+    { id: 'LIT', label: 'Literature', emoji: '📜' },
+    { id: 'NOUN', label: 'Nouns', emoji: '📝' },
+    { id: 'ADJ', label: 'Adjectives', emoji: '✨' },
+    { id: 'ACTION', label: 'Verbs', emoji: '🏃' },
+    { id: 'SCHOOL', label: 'School', emoji: '🏫' },
+    { id: 'HOBBY', label: 'Hobbies', emoji: '🎨' },
+    { id: 'ANIMAL', label: 'Animals', emoji: '🦁' },
+    { id: 'PERSONALITY', label: 'Personality', emoji: '😊' },
+    { id: 'JOB', label: 'Jobs', emoji: '👩‍💼' },
+    { id: 'CLOTHES', label: 'Clothes', emoji: '👕' },
+    { id: 'FAM', label: 'Family', emoji: '👨‍👩‍👧‍👦' },
+    { id: 'OTHER', label: 'Other', emoji: '🔖' }
+];
+
+// Categorie principali (esclude OTHER)
+const mainCategories = availableCategories
+    .filter(cat => cat.id !== 'OTHER')
+    .map(cat => cat.id);
+
+function toggleClassFilter(classLevel) {
+    const allBtn = document.querySelector('.class-filter-btn[data-class="all"]');
+    const specificBtns = document.querySelectorAll('.class-filter-btn[data-class]:not([data-class="all"])');
+    
+    if (classLevel === 'all') {
+        // Se clicca "All", deseleziona tutte le classi specifiche
+        selectedClassLevels = ['all'];
+        allBtn.classList.add('selected');
+        specificBtns.forEach(btn => btn.classList.remove('selected'));
+    } else {
+        // Rimuove "all" se presente
+        selectedClassLevels = selectedClassLevels.filter(c => c !== 'all');
+        allBtn.classList.remove('selected');
+        
+        // Toggle della classe specifica
+        if (selectedClassLevels.includes(classLevel)) {
+            selectedClassLevels = selectedClassLevels.filter(c => c !== classLevel);
+        } else {
+            selectedClassLevels.push(classLevel);
+        }
+        
+        // Se non c'è nessuna selezione, torna ad "all"
+        if (selectedClassLevels.length === 0) {
+            selectedClassLevels = ['all'];
+            allBtn.classList.add('selected');
+        } else {
+            // Aggiorna i bottoni
+            specificBtns.forEach(btn => {
+                const btnClass = btn.getAttribute('data-class');
+                if (selectedClassLevels.includes(btnClass)) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+        }
+    }
+    
+    // AGGIUNGI QUESTA RIGA: applica immediatamente il filtro
+    createCategoryBoard(selectedCategories, selectedClassLevels);
+}
+function renderCategoryGrid() {
+    const grid = document.getElementById('categoryGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    
+    availableCategories.forEach(cat => {
+        const button = document.createElement('button');
+        button.className = 'category-btn';
+        button.onclick = () => toggleCategory(cat.id);
+        
+        if (selectedCategories.includes(cat.id)) {
+            button.classList.add('selected');
+        }
+        
+        button.innerHTML = `
+            <div class="category-emoji">${cat.emoji}</div>
+            <div class="category-label">${cat.label}</div>
+            <div class="category-id">${cat.id}</div>
+        `;
+        
+        grid.appendChild(button);
+    });
+    
+    updateSelectedDisplay();
+}
+
+function toggleCategory(categoryId) {
+    if (selectedCategories.includes(categoryId)) {
+        selectedCategories = selectedCategories.filter(id => id !== categoryId);
+    } else {
+        selectedCategories.push(categoryId);
+    }
+    renderCategoryGrid();
+}
+
+function clearCategories() {
+    selectedCategories = [];
+    renderCategoryGrid();
+}
+
+function clearAllFilters() {
+    selectedCategories = [];
+    selectedClassLevels = ['all'];
+    
+    // Reset UI
+    document.querySelectorAll('.class-filter-btn').forEach(btn => {
+        btn.classList.remove('selected');
+    });
+    document.querySelector('.class-filter-btn[data-class="all"]').classList.add('selected');
+    
+    renderCategoryGrid();
+}
+
+function updateSelectedDisplay() {
+    const display = document.getElementById('selectedCategoriesText');
+    if (!display) return;
+    
+    if (selectedCategories.length === 0) {
+        display.textContent = 'None (all categories will be used)';
+        display.style.color = '#999';
+    } else {
+        const labels = selectedCategories.map(id => {
+            const cat = availableCategories.find(c => c.id === id);
+            return cat ? `${cat.emoji} ${cat.label}` : id;
+        }).join(', ');
+        display.textContent = labels;
+        display.style.color = '#F33409';
+    }
+}
+
+
+function applyCategories() {
+    createCategoryBoard(selectedCategories, selectedClassLevels);
+    showPage('index');
+}
+
+// Inizializza quando la pagina è pronta
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        if (document.getElementById('categoryGrid')) {
+            renderCategoryGrid();
+            
+            // Imposta "All" come selezionato di default
+            const allBtn = document.querySelector('.class-filter-btn[data-class="all"]');
+            if (allBtn) allBtn.classList.add('selected');
+        }
+    }, 200);
+});
+
+function renderCategoryGrid() {
+    const grid = document.getElementById('categoryGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    
+    availableCategories.forEach(cat => {
+        const button = document.createElement('button');
+        button.className = 'category-btn';
+        button.onclick = () => toggleCategory(cat.id);
+        
+        if (selectedCategories.includes(cat.id)) {
+            button.classList.add('selected');
+        }
+        
+        button.innerHTML = `
+            <div class="category-emoji">${cat.emoji}</div>
+            <div class="category-label">${cat.label}</div>
+            <div class="category-id">${cat.id}</div>
+        `;
+        
+        grid.appendChild(button);
+    });
+    
+    updateSelectedDisplay();
+}
+
+function toggleCategory(categoryId) {
+    if (selectedCategories.includes(categoryId)) {
+        selectedCategories = selectedCategories.filter(id => id !== categoryId);
+    } else {
+        selectedCategories.push(categoryId);
+    }
+    renderCategoryGrid();
+}
+
+function clearCategories() {
+    selectedCategories = [];
+    renderCategoryGrid();
+}
+
+function updateSelectedDisplay() {
+    const display = document.getElementById('selectedCategoriesText');
+    if (!display) return;
+    
+    if (selectedCategories.length === 0) {
+        display.textContent = 'None (all categories will be used)';
+        display.style.color = '#999';
+    } else {
+        const labels = selectedCategories.map(id => {
+            const cat = availableCategories.find(c => c.id === id);
+            return cat ? `${cat.emoji} ${cat.label}` : id;
+        }).join(', ');
+        display.textContent = labels;
+        display.style.color = '#F33409';
+    }
+}
+
+function createCategoryBoard(categories = [], classLevels = ['all']) {
+    const board = document.getElementById('board');
+    board.innerHTML = '';
+
+    // 1) FILTRO PER CLASSI CON PRIORITÀ ASSOLUTA
+    let priorityClassWords = [];
+    let otherClassWords = [];
+
+    if (classLevels.includes('all') || classLevels.length === 0) {
+        // Tutte le classi senza priorità
+        priorityClassWords = words.filter(
+            w =>
+                w.classe === '1media' ||
+                w.classe === '2media' ||
+                w.classe === '3media'
+        );
+    } else {
+        // Separa parole della classe selezionata dalle altre
+        words.forEach(word => {
+            if (classLevels.includes(word.classe)) {
+                priorityClassWords.push(word);
+            } else if (
+                word.classe === '1media' ||
+                word.classe === '2media' ||
+                word.classe === '3media'
+            ) {
+                otherClassWords.push(word);
+            }
+        });
+    }
+
+    // 2) FILTRO PER CATEGORIE CON PRIORITÀ ASSOLUTA
+    let priorityCategoryWords = [];
+    let otherCategoryWords = [];
+
+    const mainCategories = availableCategories
+        .filter(cat => cat.id !== 'OTHER')
+        .map(cat => cat.id);
+
+    if (categories.length > 0) {
+        // Applica filtro categorie al pool prioritario delle classi
+        priorityClassWords.forEach(word => {
+            let hasSelectedCategory = false;
+
+            // Controlla se ha la categoria OTHER (nessuna categoria principale)
+            if (categories.includes('OTHER')) {
+                const hasMainCategory = (word.categories || []).some(cat =>
+                    mainCategories.includes(cat)
+                );
+                if (!hasMainCategory) {
+                    hasSelectedCategory = true;
+                }
+            }
+
+            // Controlla altre categorie selezionate
+            const otherSelected = categories.filter(cat => cat !== 'OTHER');
+            if (otherSelected.length > 0) {
+                const hasOtherCategory = (word.categories || []).some(cat =>
+                    otherSelected.includes(cat)
+                );
+                if (hasOtherCategory) {
+                    hasSelectedCategory = true;
+                }
+            }
+
+            if (hasSelectedCategory) {
+                priorityCategoryWords.push(word);
+            } else {
+                otherCategoryWords.push(word);
+            }
+        });
+    } else {
+        // Nessuna categoria selezionata = tutte le parole della classe prioritaria
+        priorityCategoryWords = priorityClassWords;
+    }
+
+    // 3) COSTRUZIONE POOL FINALE CON PRIORITÀ ASSOLUTA
+    let finalPool = [];
+
+    // Shuffle delle parole prioritarie (classe + categoria corrette)
+    const shuffledPriority = shuffleArray(priorityCategoryWords);
+    finalPool = shuffledPriority.slice(0, 90);
+
+    // Se non bastano, aggiungi dalle parole della classe corretta ma categoria diversa
+    if (finalPool.length < 90 && categories.length > 0) {
+        const needed = 90 - finalPool.length;
+        const shuffledOtherCategory = shuffleArray(otherCategoryWords);
+        finalPool.push(...shuffledOtherCategory.slice(0, needed));
+    }
+
+    // Se ancora non bastano, aggiungi dalle altre classi
+    if (finalPool.length < 90 && !classLevels.includes('all')) {
+        const needed = 90 - finalPool.length;
+        
+        if (categories.length > 0) {
+            // Filtra le altre classi per categoria
+            let otherClassFiltered = [];
+            let otherClassRest = [];
+            
+            otherClassWords.forEach(word => {
+                let hasSelectedCategory = false;
+
+                if (categories.includes('OTHER')) {
+                    const hasMainCategory = (word.categories || []).some(cat =>
+                        mainCategories.includes(cat)
+                    );
+                    if (!hasMainCategory) {
+                        hasSelectedCategory = true;
+                    }
+                }
+
+                const otherSelected = categories.filter(cat => cat !== 'OTHER');
+                if (otherSelected.length > 0) {
+                    const hasOtherCategory = (word.categories || []).some(cat =>
+                        otherSelected.includes(cat)
+                    );
+                    if (hasOtherCategory) {
+                        hasSelectedCategory = true;
+                    }
+                }
+
+                if (hasSelectedCategory) {
+                    otherClassFiltered.push(word);
+                } else {
+                    otherClassRest.push(word);
+                }
+            });
+
+            // Prima prova con le parole delle altre classi ma con categoria corretta
+            const shuffledOtherClassFiltered = shuffleArray(otherClassFiltered);
+            const toAdd = Math.min(needed, shuffledOtherClassFiltered.length);
+            finalPool.push(...shuffledOtherClassFiltered.slice(0, toAdd));
+
+            // Se ancora non basta, usa qualsiasi parola
+            if (finalPool.length < 90) {
+                const stillNeeded = 90 - finalPool.length;
+                const shuffledRest = shuffleArray(otherClassRest);
+                finalPool.push(...shuffledRest.slice(0, stillNeeded));
+            }
+        } else {
+            // Nessuna categoria: usa semplicemente altre classi
+            const shuffledOtherClass = shuffleArray(otherClassWords);
+            finalPool.push(...shuffledOtherClass.slice(0, needed));
+        }
+    }
+
+    currentBoardWords = finalPool;
+
+    // Ordina alfabeticamente
+    currentBoardWords = currentBoardWords.sort((a, b) =>
+        a.word.localeCompare(b.word)
+    );
+
+    // 4) DISEGNA IL TABELLONE
+    currentBoardWords.forEach((item, index) => {
+        const num = index + 1;
+        const cell = document.createElement('div');
+        cell.className = 'board-cell cell';
+        applyCategoryClasses(cell, item);
+        cell.innerHTML = `
+            <div class="number">${num}</div>
+            <div class="word">${item.word}</div>
+        `;
+        cell.id = `cell-${num}`;
+        board.appendChild(cell);
+    });
+
+    // Reset ruota/estrazioni
+    extractedNumbers = [];
+    document.getElementById('wheelBtn').disabled = false;
+    document.getElementById('extractedNumber').textContent = '';
+    document.getElementById('extractedWord').textContent = '';
+    document.getElementById('extractedDefinition').textContent = '';
+
+    createWheel();
+    generatePlayerCards();
+    setTimeout(saveBoardToStorage, 100);
+}
+
+
+function applyCategories() {
+    // Passa ENTRAMBI i parametri
+    createCategoryBoard(selectedCategories, selectedClassLevels);
+    showPage('index');
+}
+
+// Inizializza la griglia quando la pagina è pronta
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        if (document.getElementById('categoryGrid')) {
+            renderCategoryGrid();
+        }
+    }, 200);
+});
