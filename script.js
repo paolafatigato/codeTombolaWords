@@ -345,8 +345,7 @@ function createCategoryBoard(categories = [], classLevels = ['all']) {
     document.getElementById('extractedDefinition').textContent = '';
 
     createWheel();
-    generatePlayerCards();
-    
+    generatePlayerCards(); //dovrebbe ricreate le carte che corrispondono al nuovo tabellone
     // Salva il tabellone se la funzione esiste
     if (typeof saveBoardToStorage === 'function') {
         setTimeout(saveBoardToStorage, 100);
