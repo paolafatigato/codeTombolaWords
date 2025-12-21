@@ -220,7 +220,6 @@ const words = [
   { categories: ["CLOTHES", "NOUN"], word: "dress",        definition: "A piece of clothing worn by women or girls.",            classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "t-shirt",      definition: "A short-sleeved cotton top.",                           classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "jumper",       definition: "A warm knitted top.",                                   classe: "2media" },
-  { categories: ["CLOTHES", "NOUN"], word: "scarf",        definition: "A long piece of cloth worn around the neck.",           classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "hat",          definition: "Something you wear on your head.",                      classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "cap",          definition: "A soft hat with a visor.",                              classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "socks",        definition: "Clothes you wear on your feet.",                        classe: "2media" },
@@ -339,4 +338,5 @@ const words = [
   { categories: ["JOB", "NOUN"],     word: "MUSICIAN",     definition: "A person who plays a musical instrument or writes music.",        classe: "3media" },
   { categories: ["JOB", "NOUN"],     word: "PHOTOGRAPHER", definition: "A person who takes photos as a job.",                             classe: "3media" },
 ];
+
 
