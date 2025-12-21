@@ -15,6 +15,8 @@ async function saveBoardToStorage() {
         const boardData = {
             code: code,
             classLevel: selectedClass,
+            selectedCategories: selectedCategories,
+            selectedClassLevels: selectedClassLevels,
             boardWords: currentBoardWords,
             createdAt: Date.now()
         };
@@ -22,10 +24,16 @@ async function saveBoardToStorage() {
         // Salva su Firebase
         await firebase.database().ref('boards/' + code).set(boardData);
         
+        // ⭐ PRIMA imposta il codice corrente
         currentSessionCode = code;
         showSessionCode(code);
         
+        // ⭐ POI aggiorna le carte E il tabellone con il nuovo codice
+        addCodeToCards();
+        addCodeToBoard();
+        
         console.log('✅ Tabellone salvato su Firebase:', code);
+        console.log('🎴 Codice aggiunto alle carte:', code);
         
     } catch (err) {
         console.error('❌ Errore Firebase:', err);
@@ -50,15 +58,28 @@ async function loadBoardFromCode(code) {
         const boardData = snapshot.val();
         
         // Imposta i dati globali
-        selectedClass = boardData.classLevel;
+        selectedClass = boardData.classLevel || 'mix';
+        selectedCategories = boardData.selectedCategories || [];
+        selectedClassLevels = boardData.selectedClassLevels || ['all'];
         currentBoardWords = boardData.boardWords;
         extractedNumbers = [];
+        
+        // ⭐ PRIMA imposta il codice corrente
+        currentSessionCode = code;
+        showSessionCode(code);
         
         // Aggiorna UI
         updateClassButtons();
         renderBoard();
         createWheel();
+        
+        // Rigenera le carte associate al nuovo tabellone
         generatePlayerCards();
+        
+        // ⭐ POI aggiorna le carte E il tabellone con il codice caricato
+        addCodeToCards();
+        addCodeToBoard();
+        
         showPage("index");
         
         // Reset wheel
@@ -67,11 +88,10 @@ async function loadBoardFromCode(code) {
         document.getElementById("extractedWord").textContent = "";
         document.getElementById("extractedDefinition").textContent = "";
         
-        currentSessionCode = code;
-        showSessionCode(code);
         hideLoadingMessage();
         
         console.log('✅ Tabellone caricato:', code);
+        console.log('📋 Carte rigenerate per il nuovo tabellone');
         
         return true;
         
@@ -87,7 +107,7 @@ function showLoadingMessage() {
     const input = document.getElementById('codeInput');
     const btn = document.querySelector('.load-code-btn');
     if (btn) {
-        btn.textContent = '⏳ Carico...';
+        btn.textContent = '⏳';
         btn.disabled = true;
     }
 }
@@ -95,12 +115,12 @@ function showLoadingMessage() {
 function hideLoadingMessage() {
     const btn = document.querySelector('.load-code-btn');
     if (btn) {
-        btn.textContent = '📥 Carica';
+        btn.textContent = '📥';
         btn.disabled = false;
     }
 }
 
-// Mostra il codice nell'header (non più sotto il tabellone)
+// Mostra il codice nell'header
 function showSessionCode(code) {
     const codeDisplay = document.getElementById('currentCodeDisplay');
     if (codeDisplay) {
@@ -138,6 +158,29 @@ function renderBoard() {
         cell.id = `cell-${num}`;
         board.appendChild(cell);
     });
+    
+    // ⭐ Aggiungi il codice sotto al tabellone
+    addCodeToBoard();
+}
+
+// Aggiungi il codice sotto al tabellone
+function addCodeToBoard() {
+    const boardContainer = document.querySelector('.board-container');
+    if (!boardContainer) return;
+    
+    // Rimuovi eventuale codice precedente
+    const existingCode = boardContainer.querySelector('.board-code-display');
+    if (existingCode) {
+        existingCode.remove();
+    }
+    
+    // Aggiungi nuovo codice se esiste
+    if (currentSessionCode) {
+        const codeDiv = document.createElement('div');
+        codeDiv.className = 'board-code-display';
+        codeDiv.setAttribute('data-code', currentSessionCode);
+        boardContainer.appendChild(codeDiv);
+    }
 }
 
 // Gestisci click sul pulsante "Carica"
@@ -179,7 +222,7 @@ window.selectClass = function(classLevel) {
     
     createBoard();
     createWheel();
-    generatePlayerCards();
+    generatePlayerCards(); // ⭐ Rigenera carte
     showPage("index");
     
     setTimeout(() => {
@@ -198,7 +241,7 @@ window.randomMixedBoard = function() {
         w.classe === "3media"
     );
     const shuffled = shuffleArray(all);
-    currentBoardWords = shuffled.slice(0, 100);
+    currentBoardWords = shuffled.slice(0, 90);
     
     renderBoard();
     
@@ -209,7 +252,7 @@ window.randomMixedBoard = function() {
     document.getElementById("extractedDefinition").textContent = "";
     
     createWheel();
-    generatePlayerCards();
+    generatePlayerCards(); // ⭐ Rigenera carte
     
     setTimeout(() => {
         saveBoardToStorage();
