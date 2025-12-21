@@ -1076,7 +1076,7 @@ h1 {
     font-size: 1em;
   }
 
-  #player .card::after {
+  #player .card::after, .board-code-display::after {
     content: "Code: " attr(data-code);
     position: absolute;
     bottom: 5px;
