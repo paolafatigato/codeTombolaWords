@@ -234,7 +234,6 @@ const words = [
   { categories: ["CLOTHES", "NOUN"], word: "scarf",        definition: "A long piece of cloth worn around the neck.",       classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "gloves",       definition: "Clothes you wear on your hands.",                   classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "hat",          definition: "Something you wear on your head.",                  classe: "2media" },
-  { categories: ["CLOTHES", "NOUN"], word: "cap",          definition: "A soft hat with a visor.",                          classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "sunglasses",   definition: "Glasses that protect your eyes from the sun.",      classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "watch",        definition: "Something you wear on your wrist to know the time.",classe: "2media" },
   { categories: ["CLOTHES", "NOUN"], word: "bag",          definition: "Something you use to carry things.",               classe: "2media" },
@@ -340,3 +339,4 @@ const words = [
   { categories: ["JOB", "NOUN"],     word: "MUSICIAN",     definition: "A person who plays a musical instrument or writes music.",        classe: "3media" },
   { categories: ["JOB", "NOUN"],     word: "PHOTOGRAPHER", definition: "A person who takes photos as a job.",                             classe: "3media" },
 ];
+
