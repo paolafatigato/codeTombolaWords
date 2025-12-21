@@ -1065,10 +1065,13 @@ h1 {
   }
 
   #player .card {
+     width: 13cm;
+    height: 6cm;
+    box-sizing: border-box;
     page-break-inside: avoid;
     margin-bottom: 10px;
     position: relative;
-    padding-bottom: 25px;
+    padding-bottom: 25px;;
   }
 
   #player .card h2 {
@@ -1103,3 +1106,4 @@ h1 {
     visibility: hidden !important;
   }
 }
+
