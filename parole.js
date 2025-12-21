@@ -10,7 +10,12 @@ const words = [
   { categories: ["SCHOOL", "NOUN"],  word: "geography",    definition: "A school subject about countries, maps and places.",              classe: "1media" },
   { categories: ["SCHOOL", "NOUN"],  word: "glue",         definition: "A sticky thing that joins paper together.",                       classe: "1media" },
   { categories: ["SCHOOL", "NOUN"],  word: "history",      definition: "A school subject about the past.",                                classe: "1media" },
-
+  { categories: ["SCHOOL", "NOUN"],  word: "pen",          definition: "You use it with ink to write.",                                   classe: "1media" },
+  { categories: ["SCHOOL", "NOUN"],  word: "ruler",        definition: "A long, flat tool you use to measure or draw lines.",             classe: "1media" },
+  { categories: ["SCHOOL", "NOUN"],  word: "science",      definition: "A school subject about nature and experiments.",                  classe: "1media" },
+  { categories: ["SCHOOL", "NOUN"],  word: "scissors",     definition: "A small tool with two blades to cut paper.",                      classe: "1media" },
+  { categories: ["SCHOOL", "NOUN"],  word: "sharpener",    definition: "A small tool to make a pencil sharp.",                            classe: "1media" },
+ 
   // FAM
   { categories: ["FAM", "NOUN"],     word: "aunt",         definition: "The sister of your mother or father.",                             classe: "1media" },
   { categories: ["FAM", "NOUN"],     word: "baby",         definition: "A very young child.",                                              classe: "1media" },
@@ -156,13 +161,7 @@ const words = [
   { categories: ["NOUN"],            word: "door",         definition: "You open this to go in or out of a room.",                        classe: "1media" },
   { categories: ["NOUN"],            word: "floor",        definition: "The part of the room you walk on.",                               classe: "1media" },
   { categories: ["NOUN"],            word: "money",        definition: "Coins and notes that you use to buy things.",                    classe: "1media" },
-  { categories: ["NOUN"],            word: "notebook",     definition: "A small book where you write notes.",                             classe: "1media" },
-  { categories: ["NOUN"],            word: "pen",          definition: "You use it with ink to write.",                                   classe: "1media" },
-  { categories: ["NOUN"],            word: "ruler",        definition: "A long, flat tool you use to measure or draw lines.",             classe: "1media" },
-  { categories: ["NOUN"],            word: "schoolbag",    definition: "A bag where you carry books to school.",                          classe: "1media" },
-  { categories: ["NOUN"],            word: "science",      definition: "A school subject about nature and experiments.",                  classe: "1media" },
-  { categories: ["NOUN"],            word: "scissors",     definition: "A small tool with two blades to cut paper.",                      classe: "1media" },
-  { categories: ["NOUN"],            word: "sharpener",    definition: "A small tool to make a pencil sharp.",                            classe: "1media" },
+  { categories: ["SCHOOL","NOUN"],   word: "notebook",     definition: "A small book where you write notes.",                             classe: "1media" },
   { categories: ["NOUN"],            word: "wall",         definition: "The vertical part around a room.",                                classe: "1media" },
   { categories: ["NOUN"],            word: "window",       definition: "The glass part of a wall you can see through.",                   classe: "1media" },
 
@@ -173,7 +172,7 @@ const words = [
   // OTHER
   { categories: ["OTHER"],           word: "English",      definition: "The language you are studying now.",                              classe: "1media" },
   { categories: ["OTHER"],           word: "ms Fatigato",  definition: "The name of the best English teacher ;)",                         classe: "1media" },
-  { categories: [ "NOUN"],   word: "neighbor",     definition: "A person who lives near your house.",                             classe: "1media" },
+  { categories: [ "NOUN"],           word: "neighbor",     definition: "A person who lives near your house.",                             classe: "1media" },
   { categories: ["OTHER", "NOUN"],   word: "P.E.",         definition: "A school subject where you do sport and exercise.",               classe: "1media" },
   { categories: ["LIT", "NOUN"],     word: "schizophrenia", definition: "A serious mental illness of the brain.",                    classe: "1media" },
   { categories: ["OTHER", "NOUN"],   word: "sister",       definition: "A girl who has the same parents as you.",                         classe: "1media" },
@@ -251,7 +250,7 @@ const words = [
   { categories: ["LIT"],             word: "Friar Lawrence", definition: "The priest who helps Romeo and Juliet.",                        classe: "2media" },
   { categories: ["LIT", "NOUN"],     word: "balcony",      definition: "The place where Juliet stands when Romeo talks to her.",          classe: "2media" },
   { categories: ["LIT", "NOUN"],     word: "poison",       definition: "A dangerous liquid that can kill you.",                           classe: "2media" },
-  { categories: ["LIT", "NOUN"],     word: "dagger",       definition: "A small knife used as a weapon.",                                 classe: "2media" },
+  { categories: ["NOUN", "LIT"],     word: "dagger",       definition: "A small knife used as a weapon.",                                 classe: "2media" },
   { categories: ["LIT", "NOUN"],     word: "feud",         definition: "A long fight between two families or groups.",                    classe: "2media" },
   { categories: ["LIT", "NOUN"],     word: "tragedy",      definition: "A sad story that ends badly.",                                    classe: "2media" },
   { categories: ["LIT", "NOUN"],     word: "tomb",         definition: "A place where dead people are buried.",                           classe: "2media" },
@@ -338,5 +337,3 @@ const words = [
   { categories: ["JOB", "NOUN"],     word: "MUSICIAN",     definition: "A person who plays a musical instrument or writes music.",        classe: "3media" },
   { categories: ["JOB", "NOUN"],     word: "PHOTOGRAPHER", definition: "A person who takes photos as a job.",                             classe: "3media" },
 ];
-
-
