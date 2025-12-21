@@ -499,6 +499,15 @@ function renderCard(cardId) {
 
         cardEl.appendChild(cell);
     });
+    addCodeToCards(); 
+}
+
+function addCodeToCards() {
+    if (currentSessionCode) {
+        document.querySelectorAll('.card').forEach(card => {
+            card.setAttribute('data-code', currentSessionCode);
+        });
+    }
 }
 
 // Reset tutte le celle coperte
